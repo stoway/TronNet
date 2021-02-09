@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package protocol;
+
+option csharp_namespace = "TronNet.Protocol";
+option go_package = "github.com/tronprotocol/grpc-gateway/core";
+
+message InventoryItems {
+  int32 type = 1;
+  repeated bytes items = 2;
+}

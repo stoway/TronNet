@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package protocol;
+
+option csharp_namespace = "TronNet.Protocol";
+option go_package = "github.com/tronprotocol/grpc-gateway/core";
+
+enum ResourceCode {
+  BANDWIDTH = 0x00;
+  ENERGY = 0x01;
+}

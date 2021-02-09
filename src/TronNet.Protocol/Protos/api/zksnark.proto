@@ -1,0 +1,32 @@
+syntax = "proto3";
+package protocol;
+
+import "Protos/core/Tron.proto";
+
+option go_package = "github.com/tronprotocol/grpc-gateway/api";
+option csharp_namespace = "TronNet.Protocol";
+
+service TronZksnark {
+  rpc CheckZksnarkProof (ZksnarkRequest) returns (ZksnarkResponse) {
+  }
+};
+
+message ZksnarkRequest {
+  Transaction transaction = 1;
+  bytes sighash = 2;
+  int64 valueBalance = 3;
+  string txId = 4;
+}
+
+message ZksnarkResponse {
+  enum Code {
+    SUCCESS = 0;
+    FAILED = 1;
+  }
+
+  Code code = 1;
+}
+
+
+
+

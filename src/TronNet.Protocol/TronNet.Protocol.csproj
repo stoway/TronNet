@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Protos\api\api.proto" />
+		<None Remove="Protos\api\zksnark.proto" />
+		<None Remove="Protos\core\contract\account_contract.proto" />
+		<None Remove="Protos\core\contract\asset_issue_contract.proto" />
+		<None Remove="Protos\core\contract\balance_contract.proto" />
+		<None Remove="Protos\core\contract\common.proto" />
+		<None Remove="Protos\core\contract\exchange_contract.proto" />
+		<None Remove="Protos\core\contract\market_contract.proto" />
+		<None Remove="Protos\core\contract\proposal_contract.proto" />
+		<None Remove="Protos\core\contract\shield_contract.proto" />
+		<None Remove="Protos\core\contract\smart_contract.proto" />
+		<None Remove="Protos\core\contract\storage_contract.proto" />
+		<None Remove="Protos\core\contract\vote_asset_contract.proto" />
+		<None Remove="Protos\core\contract\witness_contract.proto" />
+		<None Remove="Protos\core\Discover.proto" />
+		<None Remove="Protos\core\Tron.proto" />
+		<None Remove="Protos\core\TronInventoryItems.proto" />
+		<None Remove="Protos\google\api\annotations.proto" />
+		<None Remove="Protos\google\api\http.proto" />
+		<None Remove="Protos\google\protobuf\descriptor.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Google.Api.CommonProtos" Version="1.7.0" />
+		<PackageReference Include="Google.Protobuf" Version="3.13.0" />
+		<PackageReference Include="Google.Protobuf.Tools" Version="3.11.2" />
+		<PackageReference Include="Grpc" Version="2.26.0" />
+		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.32.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.32.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\api\api.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\api\zksnark.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\account_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\asset_issue_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\balance_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\common.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\exchange_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\market_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\proposal_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\shield_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\smart_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\storage_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\vote_asset_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\contract\witness_contract.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\Discover.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\Tron.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\core\TronInventoryItems.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\google\api\annotations.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\google\api\http.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\google\protobuf\descriptor.proto" GrpcServices="Client" />
+	</ItemGroup>
+</Project>
