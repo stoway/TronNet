@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TronNet.Protocol", "src\TronNet.Protocol\TronNet.Protocol.csproj", "{2787BE3F-B61E-439C-9CFC-A3E2D3D99489}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TronNet.Protocol", "src\TronNet.Protocol\TronNet.Protocol.csproj", "{2787BE3F-B61E-439C-9CFC-A3E2D3D99489}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TronNet", "src\TronNet\TronNet.csproj", "{4FDC1F3A-B612-45CA-B3F4-C8020D25D3CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TronNet", "src\TronNet\TronNet.csproj", "{4FDC1F3A-B612-45CA-B3F4-C8020D25D3CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TronNet.ABI", "src\TronNet.ABI\TronNet.ABI.csproj", "{7257C8B2-89D6-4227-BD94-E667A556C7C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TronNet.ABI", "src\TronNet.ABI\TronNet.ABI.csproj", "{7257C8B2-89D6-4227-BD94-E667A556C7C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TronNet.Crypto", "src\TronNet.Crypto\TronNet.Crypto.csproj", "{55126F09-B36D-4986-B172-BD0E4F11A7F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TronNet.Crypto", "src\TronNet.Crypto\TronNet.Crypto.csproj", "{55126F09-B36D-4986-B172-BD0E4F11A7F9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TronNet.Common", "src\TronNet.Common\TronNet.Common.csproj", "{96899209-75CB-49C8-A0D8-7386CC8822E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{52F5F682-1C4D-434D-B5AE-D6A297C9531F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +37,20 @@ Global
 		{55126F09-B36D-4986-B172-BD0E4F11A7F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55126F09-B36D-4986-B172-BD0E4F11A7F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55126F09-B36D-4986-B172-BD0E4F11A7F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96899209-75CB-49C8-A0D8-7386CC8822E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96899209-75CB-49C8-A0D8-7386CC8822E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96899209-75CB-49C8-A0D8-7386CC8822E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96899209-75CB-49C8-A0D8-7386CC8822E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2787BE3F-B61E-439C-9CFC-A3E2D3D99489} = {52F5F682-1C4D-434D-B5AE-D6A297C9531F}
+		{4FDC1F3A-B612-45CA-B3F4-C8020D25D3CF} = {52F5F682-1C4D-434D-B5AE-D6A297C9531F}
+		{7257C8B2-89D6-4227-BD94-E667A556C7C9} = {52F5F682-1C4D-434D-B5AE-D6A297C9531F}
+		{55126F09-B36D-4986-B172-BD0E4F11A7F9} = {52F5F682-1C4D-434D-B5AE-D6A297C9531F}
+		{96899209-75CB-49C8-A0D8-7386CC8822E8} = {52F5F682-1C4D-434D-B5AE-D6A297C9531F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A921CD51-4DBC-4633-A4A0-5E9A2C7129A1}

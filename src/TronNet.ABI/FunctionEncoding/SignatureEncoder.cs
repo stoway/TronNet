@@ -7,17 +7,14 @@ namespace TronNet.ABI.FunctionEncoding
 {
     public class SignatureEncoder
     {
-        private readonly Sha3Keccack sha3Keccack;
-
         public SignatureEncoder()
         {
-            sha3Keccack = new Sha3Keccack();
         }
 
         public string GenerateSha3Signature(string name, Parameter[] parameters)
         {
             var signature = GenerateSignature(name, parameters);
-            return sha3Keccack.CalculateHash(signature);
+            return signature.ToSha3Hash();
         }
 
         public string GenerateSha3Signature(string name, Parameter[] parameters, int numberOfFirstBytes)
@@ -36,14 +33,14 @@ namespace TronNet.ABI.FunctionEncoding
         public virtual string GenerateParametersSignature(Parameter[] parameters)
         {
             var signature = new StringBuilder();
-            signature.Append("(");
+            signature.Append('(');
             if (parameters != null)
             {
                 var paramslist = parameters.OrderBy(x => x.Order).Select(GenerateParameteSignature).ToArray();
                 var paramNames = string.Join(",", paramslist);
                 signature.Append(paramNames);
             }
-            signature.Append(")");
+            signature.Append(')');
             return signature.ToString();
         }
 

@@ -7,28 +7,29 @@ using System.Threading.Tasks;
 
 namespace TronNet.Crypto
 {
-    public class Sha3Keccack
+    public static class Sha3Keccack
     {
-        public string CalculateHash(string value)
-        {
-            var input = Encoding.UTF8.GetBytes(value);
-            var output = CalculateHash(input);
-            return output.ToHex();
-        }
 
-        public string CalculateHashFromHex(params string[] hexValues)
+        public static string CalculateHashFromHex(params string[] hexValues)
         {
             var joinedHex = string.Join("", hexValues.Select(x => x.RemoveHexPrefix()).ToArray());
-            return CalculateHash(joinedHex.HexToByteArray()).ToHex();
+            return joinedHex.HexToByteArray().ToSha3Hash().ToHex();
         }
 
-        public byte[] CalculateHash(byte[] value)
+        public static byte[] ToSha3Hash(this byte[] value)
         {
             var digest = new KeccakDigest(256);
             var output = new byte[digest.GetDigestSize()];
             digest.BlockUpdate(value, 0, value.Length);
             digest.DoFinal(output, 0);
             return output;
+        }
+        public static string ToSha3Hash(this string value)
+        {
+            var input = Encoding.UTF8.GetBytes(value);
+            var output = input.ToSha3Hash();
+
+            return output.ToHex();
         }
 
     }

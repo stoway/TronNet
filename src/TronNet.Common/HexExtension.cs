@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TronNet.Crypto
+namespace TronNet
 {
     public static class HexExtension
     {
