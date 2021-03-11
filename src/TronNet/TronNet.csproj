@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="StowayNet.Extensions.DependencyInjection" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TronNet.ABI\TronNet.ABI.csproj" />
     <ProjectReference Include="..\TronNet.Protocol\TronNet.Protocol.csproj" />
   </ItemGroup>

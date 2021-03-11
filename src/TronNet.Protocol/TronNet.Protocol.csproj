@@ -37,7 +37,9 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-
+		<PackageReference Include="NBitcoin.Secp256k1">
+			<Version>1.0.3</Version>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>

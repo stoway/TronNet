@@ -4,12 +4,23 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Portable.BouncyCastle" Version="1.8.5.2" />
+		<PackageReference Include="Google.Api.CommonProtos" Version="1.7.0" />
+		<PackageReference Include="Google.Protobuf" Version="3.13.0" />
+		<PackageReference Include="Google.Protobuf.Tools" Version="3.11.2" />
+		<PackageReference Include="NBitcoin.Secp256k1">
+			<Version>1.0.3</Version>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\TronNet.Common\TronNet.Common.csproj" />
+	  <ProjectReference Include="..\TronNet.Core\TronNet.Core.csproj" />
 	</ItemGroup>
 
 

@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TronNet.Crypto
 {
-    public static class Sha3Keccack
+    public static class Sha3KeccackExtension
     {
 
         public static string CalculateHashFromHex(params string[] hexValues)
@@ -19,8 +20,8 @@ namespace TronNet.Crypto
         public static byte[] ToSha3Hash(this byte[] value)
         {
             var digest = new KeccakDigest(256);
-            var output = new byte[digest.GetDigestSize()];
             digest.BlockUpdate(value, 0, value.Length);
+            var output = new byte[digest.GetDigestSize()];
             digest.DoFinal(output, 0);
             return output;
         }
@@ -31,6 +32,23 @@ namespace TronNet.Crypto
 
             return output.ToHex();
         }
+        public static byte[] ToSM3Hash(this byte[] value)
+        {
+            var digest = new SM3Digest();
+            digest.BlockUpdate(value, 0, value.Length);
+            var output = new byte[digest.GetDigestSize()];
+            digest.DoFinal(output, 0);
+            return output;
+        }
+        public static byte[] ToSHA256Hash(this byte[] value)
+        {
+            var digest = new Sha256Digest();
+            digest.BlockUpdate(value, 0, value.Length);
+            var output = new byte[digest.GetDigestSize()];
 
+            digest.DoFinal(output, 0);
+            return output;
+
+        }
     }
 }
