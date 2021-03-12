@@ -66,4 +66,40 @@ namespace TronNetTest
 ```
 
 #### Sample 2: Transaction Sign Offline
+```c#
+using TronNet;
+using System.Threading.Tasks;
+using Google.Protobuf;
+
+namespace TronNetTest
+{
+    class Class1
+    {
+        private readonly ITronClient _tronClient;
+        private readonly ITransactionClient _transactionClient;
+        public Class1(ITronClient tronClient, ITransactionClient transactionClient)
+        {
+            _tronClient = tronClient;
+            _transactionClient = transactionClient;
+        }
+
+        public async Task SignAsync()
+        {
+            var privateKey = "D95611A9AF2A2A45359106222ED1AFED48853D9A44DEFF8DC7913F5CBA727366";
+            var ecKey = new TronECKey(privateKey, _record.Options.Value.Network);
+            var from = ecKey.GetPublicAddress();
+            var to = "TGehVcNhud84JDCGrNHKVz9jEAVKUpbuiv";
+            var amount = 100_000_000L;
+            var result = await transactionClient.CreateTransactionAsync(from, to, amount);
+
+            Assert.True(result.Result.Result);
+
+            var transactionSigned = transactionClient.GetTransactionSign(result.Transaction, privateKey);
+
+        }
+    }
+}
+
+```
+also see: https://github.com/stoway/TronNet/blob/main/test/TronNet.Test/TransactionSignTest.cs
 
