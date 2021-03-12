@@ -18,8 +18,8 @@ namespace TronNet.Test
             services.AddStowayNet().AddTronNet(x =>
             {
                 x.Network = TronNetwork.MainNet;
-                x.Channel = new GrpcChannelOption { Host = "grpc.trongrid.io", Port = 50051 };
-                //x.SolidityChannel = new GrpcChannelOption { Host = "grpc.trongrid.io", Port = 50052 };
+                x.Channel = new GrpcChannelOption { Host = "grpc.shasta.trongrid.io", Port = 50051 };
+                x.SolidityChannel = new GrpcChannelOption { Host = "grpc.shasta.trongrid.io", Port = 50052 };
             });
             services.AddLogging();
             return services.BuildServiceProvider();

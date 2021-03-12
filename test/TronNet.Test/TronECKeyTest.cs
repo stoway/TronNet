@@ -18,5 +18,11 @@ namespace TronNet.Test
 
             Assert.Equal("TWVRXXN5tsggjUCDmqbJ4KxPdJKQiynaG6", mainKey.GetPublicAddress());
         }
+
+        [Fact]
+        public void TestGenerateAddress()
+        {
+
+        }
     }
 }

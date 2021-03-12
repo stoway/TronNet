@@ -14,7 +14,7 @@ namespace TronNet.ABI.FunctionEncoding
         public static ByteCodeLibrary CreateFromPath(string path, string libraryName, string libraryAddress)
         {
             path = path.Replace("\\", "/") + ":" + libraryName;
-            var placeHolderKey = path.ToSha3Hash().Substring(0, 34);
+            var placeHolderKey = path.ToKeccakHash().Substring(0, 34);
             return new ByteCodeLibrary() { PlaceholderKey = placeHolderKey, Address = libraryAddress };
         }
 

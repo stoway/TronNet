@@ -22,7 +22,6 @@ namespace TronNet.Test
             _wallet = _record.TronClient.GetWalletClient();
         }
 
-
         [Fact]
         public async Task TestTransactionSignAsync()
         {
@@ -52,7 +51,7 @@ namespace TronNet.Test
 
             var transaction5 = transactionSigned.ToByteArray();
 
-            Assert.Equal(transaction4.Signature[0], transactionSigned.Signature[0]);
+            Assert.Equal(transaction4, transaction5);
         }
 
         private async Task<Transaction> CreateTransactionAsync(string from, string to, long amount)
@@ -84,21 +83,16 @@ namespace TronNet.Test
             transaction.RawData.Contract.Add(contract);
             transaction.RawData.Timestamp = DateTime.Now.Ticks;
             transaction.RawData.Expiration = newestBlock.BlockHeader.RawData.Timestamp + 10 * 60 * 60 * 1000;
-            SetReference(transaction, newestBlock);
-            return transaction;
-        }
-
-        private void SetReference(Transaction transaction, BlockExtention newestBlock)
-        {
             var blockHeight = newestBlock.BlockHeader.RawData.Number;
-            var blockHash = newestBlock.BlockHeader.RawData.ToByteArray().ToSha3Hash();
+            var blockHash = newestBlock.BlockHeader.RawData.ToByteArray().ToKeccakHash();
             var refBlockNum = BitConverter.GetBytes(blockHeight);
 
             transaction.RawData.RefBlockHash = ByteString.CopyFrom(blockHash.SubArray(8, 16));
             transaction.RawData.RefBlockBytes = ByteString.CopyFrom(refBlockNum.SubArray(6, 8));
+            return transaction;
         }
 
-        private Transaction SignTransaction2Byte(byte[] transaction, byte[] privateKey, Transaction transactionSigned)
+        private byte[] SignTransaction2Byte(byte[] transaction, byte[] privateKey, Transaction transactionSigned)
         {
             var ecKey = new ECKey(privateKey, true);
             var transaction1 = Transaction.Parser.ParseFrom(transaction);
@@ -110,7 +104,7 @@ namespace TronNet.Test
 
             transaction1.Signature.Add(ByteString.CopyFrom(sign));
 
-            return transaction1;
+            return transaction1.ToByteArray();
         }
     }
 }

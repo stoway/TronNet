@@ -31,6 +31,12 @@ namespace TronNet
             _network = network;
         }
 
+        internal TronECKey(TronNetwork network)
+        {
+            _ecKey = new ECKey();
+            _network = network;
+        }
+
         internal byte GetPublicAddressPrefix()
         {
             return _network == TronNetwork.MainNet ? 0x41 : 0xa0;
@@ -47,7 +53,7 @@ namespace TronNet
         {
             if (!string.IsNullOrWhiteSpace(_publicAddress)) return _publicAddress;
 
-            var initaddr = _ecKey.GetPubKeyNoPrefix().ToSha3Hash();
+            var initaddr = _ecKey.GetPubKeyNoPrefix().ToKeccakHash();
             var address = new byte[initaddr.Length - 11];
             Array.Copy(initaddr, 12, address, 1, 20);
             address[0] = GetPublicAddressPrefix();

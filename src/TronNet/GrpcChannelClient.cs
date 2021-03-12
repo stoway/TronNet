@@ -20,15 +20,14 @@ namespace TronNet
             _options = options;
         }
 
-        public Channel CreateChannel()
+        public Channel GetChannel()
         {
             return new Channel(_options.Value.Channel.Host, _options.Value.Channel.Port, ChannelCredentials.Insecure);
         }
-        //public Channel CreateSolidityChannel()
-        //{
-        //    var option = (_options.Value.SolidityChannel ?? _options.Value.Channel);
-        //    return new Channel(option.Host, option.Port, ChannelCredentials.Insecure);
-        //}
+        public Channel GetSolidityChannel()
+        {
+            return new Channel(_options.Value.SolidityChannel.Host, _options.Value.SolidityChannel.Port, ChannelCredentials.Insecure);
+        }
     }
 
 }

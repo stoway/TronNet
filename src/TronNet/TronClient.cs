@@ -13,24 +13,32 @@ namespace TronNet
     {
         private readonly ILogger<TronClient> _logger;
         private readonly IOptions<TronNetOptions> _options;
-        private readonly IGrpcChannelClient _channel;
+        private readonly IGrpcChannelClient _channelClient;
+        private readonly IWalletClient _walletClient;
 
         public TronNetwork TronNetwork => _options.Value.Network;
 
-        public TronClient(ILogger<TronClient> logger, IOptions<TronNetOptions> options, IGrpcChannelClient channel)
+        public TronClient(ILogger<TronClient> logger, IOptions<TronNetOptions> options, IGrpcChannelClient channelClient, IWalletClient walletClient)
         {
             _logger = logger;
             _options = options;
-            _channel = channel;
+            _channelClient = channelClient;
+            _walletClient = walletClient;
         }
         public Grpc.Core.Channel CreateChannel()
         {
-            return _channel.CreateChannel(); 
+            return _channelClient.GetChannel(); 
         }
         public Wallet.WalletClient GetWalletClient()
         {
-            var wallet = new Wallet.WalletClient(CreateChannel());
-            return wallet;
+            return _walletClient.GetWallet();
+        }
+
+        public string GenerateAddress()
+        {
+            var tronKey = new TronECKey(_options.Value.Network);
+
+            return tronKey.GetPublicAddress();
         }
     }
 }

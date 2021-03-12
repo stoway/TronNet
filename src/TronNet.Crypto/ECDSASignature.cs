@@ -99,17 +99,7 @@ namespace TronNet.Crypto
 
         public byte[] ToByteArray()
         {
-            return Merge(BigIntegerToBytes(R, 32), BigIntegerToBytes(S, 32), this.V);
-        }
-        private static byte[] Merge(params byte[][] arrays)
-        {
-            return MergeToEnum(arrays).ToArray();
-        }
-        private static IEnumerable<byte> MergeToEnum(params byte[][] arrays)
-        {
-            foreach (var a in arrays)
-                foreach (var b in a)
-                    yield return b;
+            return ArrayExtension.Merge(BigIntegerToBytes(R, 32), BigIntegerToBytes(S, 32), this.V);
         }
         private byte[] BigIntegerToBytes(BigInteger b, int numBytes)
         {

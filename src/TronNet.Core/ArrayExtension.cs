@@ -14,5 +14,17 @@ namespace TronNet
                         .Take(length)
                         .ToArray();
         }
+
+        public static byte[] Merge(params byte[][] arrays)
+        {
+            return MergeToEnum(arrays).ToArray();
+        }
+        private static IEnumerable<byte> MergeToEnum(params byte[][] arrays)
+        {
+            foreach (var a in arrays)
+                foreach (var b in a)
+                    yield return b;
+        }
+
     }
 }

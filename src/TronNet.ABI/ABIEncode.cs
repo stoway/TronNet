@@ -13,32 +13,32 @@ namespace TronNet.ABI
 
         public byte[] GetSha3ABIEncodedPacked(params ABIValue[] abiValues)
         {
-            return GetABIEncodedPacked(abiValues).ToSha3Hash();
+            return GetABIEncodedPacked(abiValues).ToKeccakHash();
         }
 
         public byte[] GetSha3ABIEncodedPacked(params object[] values)
         {
-            return GetABIEncodedPacked(values).ToSha3Hash();
+            return GetABIEncodedPacked(values).ToKeccakHash();
         }
 
         public byte[] GetSha3ABIEncoded(params ABIValue[] abiValues)
         {
-            return GetABIEncoded(abiValues).ToSha3Hash();
+            return GetABIEncoded(abiValues).ToKeccakHash();
         }
 
         public byte[] GetSha3ABIEncoded(params object[] values)
         {
-            return GetABIEncoded(values).ToSha3Hash();
+            return GetABIEncoded(values).ToKeccakHash();
         }
 
         public byte[] GetSha3ABIParamsEncodedPacked<T>(T input)
         {
-            return GetABIParamsEncodedPacked<T>(input).ToSha3Hash();
+            return GetABIParamsEncodedPacked<T>(input).ToKeccakHash();
         }
 
         public byte[] GetSha3ABIParamsEncoded<T>(T input)
         {
-            return GetABIParamsEncoded<T>(input).ToSha3Hash();
+            return GetABIParamsEncoded<T>(input).ToKeccakHash();
         }
 
         public byte[] GetABIEncodedPacked(params ABIValue[] abiValues)

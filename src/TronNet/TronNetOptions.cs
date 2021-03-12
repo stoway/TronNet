@@ -11,6 +11,6 @@ namespace TronNet
         public TronNetwork Network { get; set; }
         public GrpcChannelOption Channel { get; set; }
 
-        //public GrpcChannelOption SolidityChannel { get; set; }
+        public GrpcChannelOption SolidityChannel { get; set; }
     }
 }

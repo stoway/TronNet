@@ -8,7 +8,7 @@ namespace TronNet
 {
     public interface IGrpcChannelClient : StowayNet.IStowayDependency
     {
-        Grpc.Core.Channel CreateChannel();
-        //Grpc.Core.Channel CreateSolidityChannel();
+        Grpc.Core.Channel GetChannel();
+        Grpc.Core.Channel GetSolidityChannel();
     }
 }

@@ -14,7 +14,7 @@ namespace TronNet.ABI.FunctionEncoding
         public string GenerateSha3Signature(string name, Parameter[] parameters)
         {
             var signature = GenerateSignature(name, parameters);
-            return signature.ToSha3Hash();
+            return signature.ToKeccakHash();
         }
 
         public string GenerateSha3Signature(string name, Parameter[] parameters, int numberOfFirstBytes)
