@@ -12,7 +12,7 @@ namespace TronNet
         private readonly ECKey _ecKey;
         private string _publicAddress = null;
         private readonly TronNetwork _network = TronNetwork.MainNet;
-
+        private string _privateKeyHex = null;
         public TronECKey(string privateKey, TronNetwork network)
         {
             _ecKey = new ECKey(privateKey.HexToByteArray(), true);
@@ -37,7 +37,7 @@ namespace TronNet
             _network = network;
         }
 
-        public static TronECKey New(TronNetwork network)
+        public static TronECKey GenerateKey(TronNetwork network)
         {
             return new TronECKey(network);
         }
@@ -80,7 +80,14 @@ namespace TronNet
             }
             return _publicAddress;
         }
-
+        public string GetPrivateKey()
+        {
+            if (string.IsNullOrWhiteSpace(_privateKeyHex))
+            {
+                _privateKeyHex = _ecKey.PrivateKey.D.ToByteArrayUnsigned().ToHex();
+            }
+            return _privateKeyHex;
+        }
 
     }
 }

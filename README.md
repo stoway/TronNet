@@ -38,3 +38,32 @@ public void ConfigureServices(IServiceCollection services)
 ### Sample
 
 #### Sample 1: Generate Address Offline
+
+```c#
+using TronNet;
+
+namespace TronNetTest
+{
+    class Class1
+    {
+        private readonly ITronClient _tronClient;
+
+        public Class1(ITronClient tronClient)
+        {
+            _tronClient = tronClient;
+        }
+
+        public void GenerateAddress()
+        {
+            var key = _tronClient.GenerateKey();
+
+            var address = key.GetPublicAddress();
+        }
+    }
+}
+
+
+```
+
+#### Sample 2: Transaction Sign Offline
+

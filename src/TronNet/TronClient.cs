@@ -36,7 +36,7 @@ namespace TronNet
 
         public TronECKey GenerateKey()
         {
-            var tronKey = TronECKey.New(_options.Value.Network);
+            var tronKey = TronECKey.GenerateKey(_options.Value.Network);
 
             return tronKey;
         }

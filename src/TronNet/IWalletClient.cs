@@ -7,7 +7,7 @@ using TronNet.Protocol;
 
 namespace TronNet
 {
-    public interface IWalletClient
+    public interface IWalletClient : StowayNet.IStowayDependency
     {
         Wallet.WalletClient GetWallet();
     }
