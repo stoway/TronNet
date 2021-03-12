@@ -34,11 +34,11 @@ namespace TronNet
             return _walletClient.GetWallet();
         }
 
-        public string GenerateAddress()
+        public TronECKey GenerateKey()
         {
-            var tronKey = new TronECKey(_options.Value.Network);
+            var tronKey = TronECKey.New(_options.Value.Network);
 
-            return tronKey.GetPublicAddress();
+            return tronKey;
         }
     }
 }

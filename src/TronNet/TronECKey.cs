@@ -37,6 +37,11 @@ namespace TronNet
             _network = network;
         }
 
+        public static TronECKey New(TronNetwork network)
+        {
+            return new TronECKey(network);
+        }
+
         internal byte GetPublicAddressPrefix()
         {
             return _network == TronNetwork.MainNet ? 0x41 : 0xa0;
