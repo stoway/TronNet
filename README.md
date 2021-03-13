@@ -92,8 +92,6 @@ namespace TronNetTest
             var amount = 100_000_000L;
             var result = await transactionClient.CreateTransactionAsync(from, to, amount);
 
-            Assert.True(result.Result.Result);
-
             var transactionSigned = transactionClient.GetTransactionSign(result.Transaction, privateKey);
 
         }
