@@ -75,9 +75,8 @@ namespace TronNetTest
 {
     class Class1
     {
-        private readonly ITronClient _tronClient;
         private readonly ITransactionClient _transactionClient;
-        public Class1(ITronClient tronClient, ITransactionClient transactionClient)
+        public Class1(ITransactionClient transactionClient)
         {
             _tronClient = tronClient;
             _transactionClient = transactionClient;
@@ -86,7 +85,7 @@ namespace TronNetTest
         public async Task SignAsync()
         {
             var privateKey = "D95611A9AF2A2A45359106222ED1AFED48853D9A44DEFF8DC7913F5CBA727366";
-            var ecKey = new TronECKey(privateKey, _record.Options.Value.Network);
+            var ecKey = new TronECKey(privateKey, TronNetwork.MainNet);
             var from = ecKey.GetPublicAddress();
             var to = "TGehVcNhud84JDCGrNHKVz9jEAVKUpbuiv";
             var amount = 100_000_000L;
