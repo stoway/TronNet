@@ -70,22 +70,24 @@ namespace TronNetTest
 using TronNet;
 using System.Threading.Tasks;
 using Google.Protobuf;
+using Microsoft.Extensions.Options;
 
 namespace TronNetTest
 {
     class Class1
     {
         private readonly ITransactionClient _transactionClient;
-        public Class1(ITransactionClient transactionClient)
+        private readonly IOptions<TronNetOptions> _options;
+        public Class1(ITransactionClient transactionClient, IOptions<TronNetOptions> options)
         {
-            _tronClient = tronClient;
+            _options = options;
             _transactionClient = transactionClient;
         }
 
         public async Task SignAsync()
         {
             var privateKey = "D95611A9AF2A2A45359106222ED1AFED48853D9A44DEFF8DC7913F5CBA727366";
-            var ecKey = new TronECKey(privateKey, TronNetwork.MainNet);
+            var ecKey = new TronECKey(privateKey, _options.Value.Network);
             var from = ecKey.GetPublicAddress();
             var to = "TGehVcNhud84JDCGrNHKVz9jEAVKUpbuiv";
             var amount = 100_000_000L;
