@@ -30,7 +30,7 @@ namespace TronNet.Crypto
         private ECPublicKeyParameters _ecPublicKeyParameters;
         private byte[] _publicKey;
 
-        private static readonly SecureRandom _secureRandom;
+        private static readonly SecureRandom _secureRandom = new SecureRandom();
 
         private ECDomainParameters _DomainParameter;
 
@@ -188,7 +188,7 @@ namespace TronNet.Crypto
                 q = Secp256k1.Curve.CreatePoint(q.XCoord.ToBigInteger(), q.YCoord.ToBigInteger());
                 return new ECKey(q.GetEncoded(true), false);
             }
-            return new ECKey(q.GetEncoded(), false);
+            return new ECKey(q.GetEncoded(false), false);
         }
 
         private ECDSASignature doSign(byte[] input)

@@ -101,7 +101,7 @@ namespace TronNet.Crypto
         {
             return ArrayExtension.Merge(BigIntegerToBytes(R, 32), BigIntegerToBytes(S, 32), this.V);
         }
-        private byte[] BigIntegerToBytes(BigInteger b, int numBytes)
+        private static byte[] BigIntegerToBytes(BigInteger b, int numBytes)
         {
             if (b == null) return null;
             var bytes = new byte[numBytes];
