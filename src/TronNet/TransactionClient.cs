@@ -21,19 +21,21 @@ namespace TronNet
         public async Task<TransactionExtention> CreateTransactionAsync(string from, string to, long amount)
         {
             var wallet = _walletClient.GetWallet();
-            var newestBlock = await wallet.GetNowBlock2Async(new EmptyMessage());
 
             var fromAddress = Base58Encoder.DecodeFromBase58Check(from);
             var toAddress = Base58Encoder.DecodeFromBase58Check(to);
 
-            var transaction = new Transaction();
-            var contract = new Transaction.Types.Contract();
             var transferContract = new TransferContract
             {
                 OwnerAddress = ByteString.CopyFrom(fromAddress),
                 ToAddress = ByteString.CopyFrom(toAddress),
                 Amount = amount
             };
+            return await wallet.CreateTransaction2Async(transferContract);
+
+            var transaction = new Transaction();
+
+            var contract = new Transaction.Types.Contract();
 
             try
             {
@@ -43,6 +45,8 @@ namespace TronNet
             {
                 return null;
             }
+            var newestBlock = await wallet.GetNowBlock2Async(new EmptyMessage());
+
             contract.Type = Transaction.Types.Contract.Types.ContractType.TransferContract;
             transaction.RawData = new Transaction.Types.raw();
             transaction.RawData.Contract.Add(contract);
@@ -52,8 +56,8 @@ namespace TronNet
             var blockHash = newestBlock.BlockHeader.RawData.ToByteArray().ToKeccakHash();
             var refBlockNum = BitConverter.GetBytes(blockHeight);
 
-            transaction.RawData.RefBlockHash = ByteString.CopyFrom(blockHash.SubArray(8, 16));
-            transaction.RawData.RefBlockBytes = ByteString.CopyFrom(refBlockNum.SubArray(6, 8));
+            transaction.RawData.RefBlockHash = ByteString.CopyFrom(blockHash);
+            transaction.RawData.RefBlockBytes = ByteString.CopyFrom(refBlockNum);
 
             var result = new Return
             {
@@ -63,7 +67,7 @@ namespace TronNet
             var transactionExtension = new TransactionExtention
             {
                 Transaction = transaction,
-                Txid = ByteString.CopyFrom(transaction.RawData.ToByteArray().ToSHA256Hash()),
+                Txid = ByteString.CopyFromUtf8(transaction.GetTxid()),
                 Result = result,
             };
             return transactionExtension;

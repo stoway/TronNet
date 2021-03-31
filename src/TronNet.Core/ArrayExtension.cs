@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,5 @@ namespace TronNet
                 foreach (var b in a)
                     yield return b;
         }
-
     }
 }

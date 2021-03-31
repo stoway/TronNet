@@ -52,44 +52,55 @@ namespace TronNet.Test
             var transaction5 = transactionSigned.ToByteArray();
 
             Assert.Equal(transaction4, transaction5);
+
+            var result = await _wallet.BroadcastTransactionAsync(transactionSigned);
+
+            Assert.True(result.Result);
         }
 
         private async Task<Transaction> CreateTransactionAsync(string from, string to, long amount)
         {
-            var newestBlock = await _wallet.GetNowBlock2Async(new EmptyMessage());
-
-            var fromAddress = Base58Encoder.DecodeFromBase58Check(from);
-            var toAddress = Base58Encoder.DecodeFromBase58Check(to);
-
-            var transaction = new Transaction();
-            var contract = new Transaction.Types.Contract();
-            var transferContract = new TransferContract
-            {
-                OwnerAddress = ByteString.CopyFrom(fromAddress),
-                ToAddress = ByteString.CopyFrom(toAddress),
-                Amount = amount
-            };
-
             try
             {
-                contract.Parameter = Google.Protobuf.WellKnownTypes.Any.Pack(transferContract);
+                var newestBlock = await _wallet.GetNowBlock2Async(new EmptyMessage());
+
+                var fromAddress = Base58Encoder.DecodeFromBase58Check(from);
+                var toAddress = Base58Encoder.DecodeFromBase58Check(to);
+
+                var transaction = new Transaction();
+                var contract = new Transaction.Types.Contract();
+                var transferContract = new TransferContract
+                {
+                    OwnerAddress = ByteString.CopyFrom(fromAddress),
+                    ToAddress = ByteString.CopyFrom(toAddress),
+                    Amount = amount
+                };
+
+                try
+                {
+                    contract.Parameter = Google.Protobuf.WellKnownTypes.Any.Pack(transferContract);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+                contract.Type = Transaction.Types.Contract.Types.ContractType.TransferContract;
+                transaction.RawData = new Transaction.Types.raw();
+                transaction.RawData.Contract.Add(contract);
+                transaction.RawData.Timestamp = DateTime.Now.Ticks;
+                transaction.RawData.Expiration = newestBlock.BlockHeader.RawData.Timestamp + 10 * 60 * 60 * 1000;
+                var blockHeight = newestBlock.BlockHeader.RawData.Number;
+                var blockHash = Sha256Sm3Hash.Of(newestBlock.BlockHeader.RawData.ToByteArray()).GetBytes();
+                var refBlockNum = BitConverter.GetBytes(blockHeight);
+
+                transaction.RawData.RefBlockHash = ByteString.CopyFrom(blockHash.SubArray(8, 8));
+                transaction.RawData.RefBlockBytes = ByteString.CopyFrom(refBlockNum.SubArray(1, 2));
+                return transaction;
             }
             catch (Exception)
             {
-                return null;
+                throw;
             }
-            contract.Type = Transaction.Types.Contract.Types.ContractType.TransferContract;
-            transaction.RawData = new Transaction.Types.raw();
-            transaction.RawData.Contract.Add(contract);
-            transaction.RawData.Timestamp = DateTime.Now.Ticks;
-            transaction.RawData.Expiration = newestBlock.BlockHeader.RawData.Timestamp + 10 * 60 * 60 * 1000;
-            var blockHeight = newestBlock.BlockHeader.RawData.Number;
-            var blockHash = newestBlock.BlockHeader.RawData.ToByteArray().ToKeccakHash();
-            var refBlockNum = BitConverter.GetBytes(blockHeight);
-
-            transaction.RawData.RefBlockHash = ByteString.CopyFrom(blockHash.SubArray(8, 16));
-            transaction.RawData.RefBlockBytes = ByteString.CopyFrom(refBlockNum.SubArray(6, 8));
-            return transaction;
         }
 
         private byte[] SignTransaction2Byte(byte[] transaction, byte[] privateKey, Transaction transactionSigned)
