@@ -91,10 +91,11 @@ namespace TronNetTest
             var from = ecKey.GetPublicAddress();
             var to = "TGehVcNhud84JDCGrNHKVz9jEAVKUpbuiv";
             var amount = 100_000_000L;
-            var result = await _transactionClient.CreateTransactionAsync(from, to, amount);
+            var transactionExtension = await _transactionClient.CreateTransactionAsync(from, to, amount);
 
-            var transactionSigned = _transactionClient.GetTransactionSign(result.Transaction, privateKey);
-
+            var transactionSigned = _transactionClient.GetTransactionSign(transactionExtension.Transaction, privateKey);
+            
+            var result = await _transactionClient.BroadcastTransactionAsync(transactionSigned);
         }
     }
 }
