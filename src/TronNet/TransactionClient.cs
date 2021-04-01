@@ -31,7 +31,6 @@ namespace TronNet
                 ToAddress = ByteString.CopyFrom(toAddress),
                 Amount = amount
             };
-            return await wallet.CreateTransaction2Async(transferContract);
 
             var transaction = new Transaction();
 
@@ -43,7 +42,10 @@ namespace TronNet
             }
             catch (Exception)
             {
-                return null;
+                return new TransactionExtention
+                {
+                    Result = new Return { Result = false, Code = Return.Types.response_code.OtherError },
+                };
             }
             var newestBlock = await wallet.GetNowBlock2Async(new EmptyMessage());
 
@@ -53,29 +55,23 @@ namespace TronNet
             transaction.RawData.Timestamp = DateTime.Now.Ticks;
             transaction.RawData.Expiration = newestBlock.BlockHeader.RawData.Timestamp + 10 * 60 * 60 * 1000;
             var blockHeight = newestBlock.BlockHeader.RawData.Number;
-            var blockHash = newestBlock.BlockHeader.RawData.ToByteArray().ToKeccakHash();
-            var refBlockNum = BitConverter.GetBytes(blockHeight);
+            var blockHash = Sha256Sm3Hash.Of(newestBlock.BlockHeader.RawData.ToByteArray()).GetBytes();
 
-            transaction.RawData.RefBlockHash = ByteString.CopyFrom(blockHash);
-            transaction.RawData.RefBlockBytes = ByteString.CopyFrom(refBlockNum);
+            var bb = ByteBuffer.Allocate(8);
+            bb.PutLong(blockHeight);
 
-            var result = new Return
-            {
-                Result = true,
-                Code = Return.Types.response_code.Success
-            };
+            var refBlockNum = bb.ToArray();
+
+            transaction.RawData.RefBlockHash = ByteString.CopyFrom(blockHash.SubArray(8, 8));
+            transaction.RawData.RefBlockBytes = ByteString.CopyFrom(refBlockNum.SubArray(6, 2));
+
             var transactionExtension = new TransactionExtention
             {
                 Transaction = transaction,
                 Txid = ByteString.CopyFromUtf8(transaction.GetTxid()),
-                Result = result,
+                Result = new Return { Result = true, Code = Return.Types.response_code.Success },
             };
             return transactionExtension;
-        }
-
-        public string GetTransactionHash(Transaction transaction)
-        {
-            return transaction.RawData.ToByteArray().ToSHA256Hash().ToHex();
         }
 
         public Transaction GetTransactionSign(Transaction transaction, string privateKey)

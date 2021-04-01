@@ -11,8 +11,6 @@ namespace TronNet
     {
         Task<TransactionExtention> CreateTransactionAsync(string from, string to, long amount);
 
-        string GetTransactionHash(Transaction transaction);
-
         Transaction GetTransactionSign(Transaction transaction, string privateKey);
 
         Task<Return> BroadcastTransactionAsync(Transaction transaction);

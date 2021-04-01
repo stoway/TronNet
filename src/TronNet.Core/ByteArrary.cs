@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TronNet
 {
-    public static class HexExtension
+    public static class ByteArrary
     {
         private static readonly byte[] Empty = Array.Empty<byte>();
 
@@ -145,5 +145,17 @@ namespace TronNet
 
             return value;
         }
+
+        public static byte[] Merge(params byte[][] arrays)
+        {
+            return MergeToEnum(arrays).ToArray();
+        }
+        private static IEnumerable<byte> MergeToEnum(params byte[][] arrays)
+        {
+            foreach (var a in arrays)
+                foreach (var b in a)
+                    yield return b;
+        }
+
     }
 }

@@ -31,18 +31,22 @@ namespace TronNet.Test
             var to = "TGehVcNhud84JDCGrNHKVz9jEAVKUpbuiv";
             var amount = 100_000_000L; // 100 TRX, api only receive trx in Sun, and 1 trx = 1000000 Sun
 
-            var transaction = await CreateTransactionAsync(from, to, amount);
+            var transactionExtension = await CreateTransactionAsync(from, to, amount);
 
-            var transactionExtention = await _wallet.GetTransactionSign2Async(new TransactionSign
+            Assert.True(transactionExtension.Result.Result);
+
+            var transaction = transactionExtension.Transaction;
+
+            var transactionSignExtention = await _wallet.GetTransactionSign2Async(new TransactionSign
             {
                 PrivateKey = ByteString.CopyFrom(privateStr.HexToByteArray()),
                 Transaction = transaction
             });
-            Assert.NotNull(transactionExtention);
+            Assert.NotNull(transactionSignExtention);
 
-            Assert.True(transactionExtention.Result.Result);
+            Assert.True(transactionSignExtention.Result.Result);
 
-            var transactionSigned = transactionExtention.Transaction;
+            var transactionSigned = transactionSignExtention.Transaction;
 
             var transactionBytes = transaction.ToByteArray();
 
@@ -58,50 +62,61 @@ namespace TronNet.Test
             Assert.True(result.Result);
         }
 
-        private async Task<Transaction> CreateTransactionAsync(string from, string to, long amount)
+        private async Task<TransactionExtention> CreateTransactionAsync(string from, string to, long amount)
         {
+
+            var fromAddress = Base58Encoder.DecodeFromBase58Check(from);
+            var toAddress = Base58Encoder.DecodeFromBase58Check(to);
+
+            var transferContract = new TransferContract
+            {
+                OwnerAddress = ByteString.CopyFrom(fromAddress),
+                ToAddress = ByteString.CopyFrom(toAddress),
+                Amount = amount
+            };
+
+            var transaction = new Transaction();
+
+            var contract = new Transaction.Types.Contract();
+
             try
             {
-                var newestBlock = await _wallet.GetNowBlock2Async(new EmptyMessage());
-
-                var fromAddress = Base58Encoder.DecodeFromBase58Check(from);
-                var toAddress = Base58Encoder.DecodeFromBase58Check(to);
-
-                var transaction = new Transaction();
-                var contract = new Transaction.Types.Contract();
-                var transferContract = new TransferContract
-                {
-                    OwnerAddress = ByteString.CopyFrom(fromAddress),
-                    ToAddress = ByteString.CopyFrom(toAddress),
-                    Amount = amount
-                };
-
-                try
-                {
-                    contract.Parameter = Google.Protobuf.WellKnownTypes.Any.Pack(transferContract);
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-                contract.Type = Transaction.Types.Contract.Types.ContractType.TransferContract;
-                transaction.RawData = new Transaction.Types.raw();
-                transaction.RawData.Contract.Add(contract);
-                transaction.RawData.Timestamp = DateTime.Now.Ticks;
-                transaction.RawData.Expiration = newestBlock.BlockHeader.RawData.Timestamp + 10 * 60 * 60 * 1000;
-                var blockHeight = newestBlock.BlockHeader.RawData.Number;
-                var blockHash = Sha256Sm3Hash.Of(newestBlock.BlockHeader.RawData.ToByteArray()).GetBytes();
-                var refBlockNum = BitConverter.GetBytes(blockHeight);
-
-                transaction.RawData.RefBlockHash = ByteString.CopyFrom(blockHash.SubArray(8, 8));
-                transaction.RawData.RefBlockBytes = ByteString.CopyFrom(refBlockNum.SubArray(1, 2));
-                return transaction;
+                contract.Parameter = Google.Protobuf.WellKnownTypes.Any.Pack(transferContract);
             }
             catch (Exception)
             {
-                throw;
+                return new TransactionExtention
+                {
+                    Result = new Return { Result = false, Code = Return.Types.response_code.OtherError },
+                };
             }
+            var newestBlock = await _wallet.GetNowBlock2Async(new EmptyMessage());
+
+            contract.Type = Transaction.Types.Contract.Types.ContractType.TransferContract;
+            transaction.RawData = new Transaction.Types.raw();
+            transaction.RawData.Contract.Add(contract);
+            transaction.RawData.Timestamp = DateTime.Now.Ticks;
+            transaction.RawData.Expiration = newestBlock.BlockHeader.RawData.Timestamp + 10 * 60 * 60 * 1000;
+            var blockHeight = newestBlock.BlockHeader.RawData.Number;
+            var blockHash = Sha256Sm3Hash.Of(newestBlock.BlockHeader.RawData.ToByteArray()).GetBytes();
+
+            var bb = ByteBuffer.Allocate(8);
+            bb.PutLong(blockHeight);
+
+            var refBlockNum = bb.ToArray();
+
+            transaction.RawData.RefBlockHash = ByteString.CopyFrom(blockHash.SubArray(8, 8));
+            transaction.RawData.RefBlockBytes = ByteString.CopyFrom(refBlockNum.SubArray(6, 2));
+
+            var transactionExtension = new TransactionExtention
+            {
+                Transaction = transaction,
+                Txid = ByteString.CopyFromUtf8(transaction.GetTxid()),
+                Result = new Return { Result = true, Code = Return.Types.response_code.Success },
+            };
+            return transactionExtension;
         }
+
 
         private byte[] SignTransaction2Byte(byte[] transaction, byte[] privateKey, Transaction transactionSigned)
         {

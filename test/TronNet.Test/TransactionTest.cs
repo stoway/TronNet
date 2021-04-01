@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +15,15 @@ namespace TronNet.Test
     public class TransactionTest
     {
         private readonly TronTestRecord _record;
+        private readonly Wallet.WalletClient _wallet;
 
         public TransactionTest()
         {
             _record = TronTestServiceExtension.GetTestRecord();
+            _wallet = _record.TronClient.GetWalletClient();
         }
+
+
 
         [Fact]
         public async Task TestTransferAsync()
@@ -29,18 +34,17 @@ namespace TronNet.Test
             var tronKey = new TronECKey(privateKey, _record.Options.Value.Network);
             var from = tronKey.GetPublicAddress();
             var to = "TGehVcNhud84JDCGrNHKVz9jEAVKUpbuiv";
-            var amount = 100_000_000L; // 100 TRX, api only receive trx in Sun, and 1 trx = 1000000 Sun
+            var amount = 1_000_000L; // 1 TRX, api only receive trx in Sun, and 1 trx = 1000000 Sun
 
             var fromAddress = Base58Encoder.DecodeFromBase58Check(from);
             var toAddress = Base58Encoder.DecodeFromBase58Check(to);
 
-            var transaction = await walletClient.CreateTransaction2Async(new TransferContract
-            {
-                OwnerAddress = ByteString.CopyFrom(fromAddress),
-                ToAddress = ByteString.CopyFrom(toAddress),
-                Amount = amount,
-            });
-            
+            var block = await walletClient.GetNowBlock2Async(new EmptyMessage());
+
+            var transaction = await transactionClient.CreateTransactionAsync(from, to, amount);
+
+            Assert.True(transaction.Result.Result);
+
             var transactionSigned = transactionClient.GetTransactionSign(transaction.Transaction, privateKey);
 
             var result = await transactionClient.BroadcastTransactionAsync(transactionSigned);
