@@ -19,5 +19,6 @@ namespace TronNet
 
             return builder;
         }
+
     }
 }

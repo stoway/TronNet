@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Version>0.1.4</Version>
+    <Authors>stoway</Authors>
+    <Company>stoway.net</Company>
+    <Description>TronNet.Crypto</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/stoway/TronNet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/stoway/TronNet</RepositoryUrl>
+    <PackageTags>tron, tron protocol, tron grpc</PackageTags>
+    <PackageReleaseNotes>Release notes are at https://github.com/stoway/TronNet/releases</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,10 +26,6 @@
 		<PackageReference Include="NBitcoin.Secp256k1">
 			<Version>1.0.3</Version>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\TronNet.Core\TronNet.Core.csproj" />
 	</ItemGroup>
 
 

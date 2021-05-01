@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Authors>stoway</Authors>
-    <Version>0.1.3</Version>
+    <Version>0.1.4</Version>
     <PackageProjectUrl>https://github.com/stoway/TronNet</PackageProjectUrl>
     <PackageTags>tron, tron protocol, tron grpc</PackageTags>
     <Company>stoway.net</Company>

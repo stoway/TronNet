@@ -55,7 +55,7 @@ namespace TronNet.Test
 
             var transaction5 = transactionSigned.ToByteArray();
 
-            Assert.Equal(transaction4, transaction5);
+            Assert.Equal(transaction4.ToHex(), transaction5.ToHex());
 
             var result = await _wallet.BroadcastTransactionAsync(transactionSigned);
 
@@ -125,8 +125,6 @@ namespace TronNet.Test
             var rawdata = transaction1.RawData.ToByteArray();
             var hash = rawdata.ToSHA256Hash();
             var sign = ecKey.Sign(hash).ToByteArray();
-
-            var signedValue = transactionSigned.Signature[0].ToByteArray();
 
             transaction1.Signature.Add(ByteString.CopyFrom(sign));
 

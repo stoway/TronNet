@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\TronNet.ABI\TronNet.ABI.csproj" />
-    <ProjectReference Include="..\..\src\TronNet.Core\TronNet.Core.csproj" />
     <ProjectReference Include="..\..\src\TronNet.Crypto\TronNet.Crypto.csproj" />
     <ProjectReference Include="..\..\src\TronNet\TronNet.csproj" />
   </ItemGroup>
