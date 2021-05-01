@@ -7,7 +7,7 @@ using TronNet.Protocol;
 
 namespace TronNet
 {
-    public interface ITransactionClient : StowayNet.IStowayDependency
+    public interface ITransactionClient
     {
         Task<TransactionExtention> CreateTransactionAsync(string from, string to, long amount);
 

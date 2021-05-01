@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TronNet
 {
-    public interface ITronClient : StowayNet.IStowayDependency
+    public interface ITronClient
     {
         TronNetwork TronNetwork { get; }
         Grpc.Core.Channel CreateChannel();

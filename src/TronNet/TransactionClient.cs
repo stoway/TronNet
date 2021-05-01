@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace TronNet
     class TransactionClient : ITransactionClient
     {
         private readonly IWalletClient _walletClient;
+        private readonly IOptions<TronNetOptions> _options;
 
-        public TransactionClient(IWalletClient walletClient)
+        public TransactionClient(IWalletClient walletClient, IOptions<TronNetOptions> options)
         {
             _walletClient = walletClient;
+            _options = options;
         }
 
         public async Task<TransactionExtention> CreateTransactionAsync(string from, string to, long amount)
@@ -47,7 +50,7 @@ namespace TronNet
                     Result = new Return { Result = false, Code = Return.Types.response_code.OtherError },
                 };
             }
-            var newestBlock = await wallet.GetNowBlock2Async(new EmptyMessage());
+            var newestBlock = await wallet.GetNowBlock2Async(new EmptyMessage(), headers: _options.Value.GetgRPCHeaders());
 
             contract.Type = Transaction.Types.Contract.Types.ContractType.TransferContract;
             transaction.RawData = new Transaction.Types.raw();
@@ -90,7 +93,7 @@ namespace TronNet
         public async Task<Return> BroadcastTransactionAsync(Transaction transaction)
         {
             var wallet = _walletClient.GetWallet();
-            var result = await wallet.BroadcastTransactionAsync(transaction);
+            var result = await wallet.BroadcastTransactionAsync(transaction, headers: _options.Value.GetgRPCHeaders());
 
             return result;
         }

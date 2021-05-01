@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using StowayNet;
 using Microsoft.Extensions.Options;
 
 namespace TronNet.Test
@@ -15,7 +14,7 @@ namespace TronNet.Test
         public static IServiceProvider AddTronNet()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddStowayNet().AddTronNet(x =>
+            services.AddTronNet(x =>
             {
                 x.Network = TronNetwork.MainNet;
                 x.Channel = new GrpcChannelOption { Host = "grpc.shasta.trongrid.io", Port = 50051 };

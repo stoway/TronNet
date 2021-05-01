@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TronNet
 {
-    public interface IGrpcChannelClient : StowayNet.IStowayDependency
+    public interface IGrpcChannelClient
     {
         Grpc.Core.Channel GetChannel();
         Grpc.Core.Channel GetSolidityChannel();

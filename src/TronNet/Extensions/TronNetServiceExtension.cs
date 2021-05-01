@@ -4,21 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using StowayNet;
 
 namespace TronNet
 {
     public static class TronNetServiceExtension
     {
-        public static IStowayNetBuilder AddTronNet(this IStowayNetBuilder builder, Action<TronNetOptions> setupAction)
+        public static StowayNet.IStowayNetBuilder AddTronNet(StowayNet.IStowayNetBuilder builder, Action<TronNetOptions> setupAction)
         {
-            var options = new TronNetOptions();
-
-            setupAction(options);
-            builder.Services.Configure(setupAction);
+            builder.Services.AddTronNet(setupAction);
 
             return builder;
         }
 
+        public static IServiceCollection AddTronNet(this IServiceCollection services, Action<TronNetOptions> setupAction)
+        {
+            var options = new TronNetOptions();
+
+            setupAction(options);
+
+            services.AddTransient<ITransactionClient, TransactionClient>();
+            services.AddTransient<IGrpcChannelClient, GrpcChannelClient>();
+            services.AddTransient<ITronClient, TronClient>();
+            services.AddTransient<IWalletClient, WalletClient>();
+
+            services.Configure(setupAction);
+
+            return services;
+        }
     }
 }
