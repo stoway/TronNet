@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
-		<Version>0.1.4</Version>
+		<Version>0.1.5</Version>
 		<Authors>stoway</Authors>
 		<Company>stoway.net</Company>
 		<Description>TronNet.Protocol</Description>
