@@ -23,7 +23,7 @@ public void ConfigureServices(IServiceCollection services)
 {
     ......
 
-    services.AddStowayNet().AddTronNet(x =>
+    services.AddTronNet(x =>
     {
         x.Network = TronNetwork.MainNet;
         x.Channel = new GrpcChannelOption { Host = "grpc.shasta.trongrid.io", Port = 50051 };
