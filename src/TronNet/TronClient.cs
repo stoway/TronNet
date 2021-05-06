@@ -29,7 +29,7 @@ namespace TronNet
         {
             return _channelClient.GetChannel(); 
         }
-        public Wallet.WalletClient GetWalletClient()
+        public Wallet.WalletClient GetWallet()
         {
             return _walletClient.GetWallet();
         }

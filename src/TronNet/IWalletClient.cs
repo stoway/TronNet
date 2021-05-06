@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,7 @@ namespace TronNet
     public interface IWalletClient
     {
         Wallet.WalletClient GetWallet();
+        WalletSolidity.WalletSolidityClient WalletSolidity();
+        ByteString ParseAddress(string address);
     }
 }

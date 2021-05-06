@@ -10,7 +10,7 @@ namespace TronNet
     {
         TronNetwork TronNetwork { get; }
         Grpc.Core.Channel CreateChannel();
-        Protocol.Wallet.WalletClient GetWalletClient();
+        Protocol.Wallet.WalletClient GetWallet();
         TronECKey GenerateKey();
     }
 }

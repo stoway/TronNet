@@ -20,7 +20,7 @@ namespace TronNet.Test
         public TransactionTest()
         {
             _record = TronTestServiceExtension.GetTestRecord();
-            _wallet = _record.TronClient.GetWalletClient();
+            _wallet = _record.TronClient.GetWallet();
         }
 
 
@@ -29,7 +29,7 @@ namespace TronNet.Test
         public async Task TestTransferAsync()
         {
             var transactionClient = _record.ServiceProvider.GetService<ITransactionClient>();
-            var walletClient = _record.TronClient.GetWalletClient();
+            var walletClient = _record.TronClient.GetWallet();
             var privateKey = "8e812436a0e3323166e1f0e8ba79e19e217b2c4a53c970d4cca0cfb1078979df";
             var tronKey = new TronECKey(privateKey, _record.Options.Value.Network);
             var from = tronKey.GetPublicAddress();
@@ -67,7 +67,7 @@ namespace TronNet.Test
 
             var transactionSigned = transactionClient.GetTransactionSign(result.Transaction, privateKey);
 
-            var remoteTransactionSigned = await _record.TronClient.GetWalletClient().GetTransactionSign2Async(new Protocol.TransactionSign
+            var remoteTransactionSigned = await _record.TronClient.GetWallet().GetTransactionSign2Async(new Protocol.TransactionSign
             {
                 Transaction = result.Transaction,
                 PrivateKey = ByteString.CopyFrom(privateKey.HexToByteArray()),

@@ -25,13 +25,13 @@ namespace TronNet
         {
             var wallet = _walletClient.GetWallet();
 
-            var fromAddress = Base58Encoder.DecodeFromBase58Check(from);
-            var toAddress = Base58Encoder.DecodeFromBase58Check(to);
+            var fromAddress = _walletClient.ParseAddress(from);
+            var toAddress = _walletClient.ParseAddress(to);
 
             var transferContract = new TransferContract
             {
-                OwnerAddress = ByteString.CopyFrom(fromAddress),
-                ToAddress = ByteString.CopyFrom(toAddress),
+                OwnerAddress = fromAddress,
+                ToAddress = toAddress,
                 Amount = amount
             };
 
