@@ -8,7 +8,11 @@ namespace TronNet.Accounts
 {
     public interface ITronAccount
     {
-        public string Address { get; set; }
+        public string PublicKey { get; }
+        public string PrivateKey { get; }
 
+        public string Address { get; }
+
+        byte GetAddressPrefix();
     }
 }

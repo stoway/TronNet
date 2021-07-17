@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
-		<Version>0.1.5</Version>
+		<Version>0.2.0</Version>
 		<Authors>stoway</Authors>
 		<Company>stoway.net</Company>
 		<Description>TronNet.Protocol</Description>
@@ -11,6 +11,7 @@
 		<RepositoryUrl>https://github.com/stoway/TronNet</RepositoryUrl>
 		<PackageTags>tron, tron protocol, tron grpc</PackageTags>
 		<PackageReleaseNotes>Release notes are at https://github.com/stoway/TronNet/releases</PackageReleaseNotes>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>

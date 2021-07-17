@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TronNet.Contracts;
 using TronNet.Protocol;
 
 namespace TronNet
@@ -15,31 +16,35 @@ namespace TronNet
         private readonly IOptions<TronNetOptions> _options;
         private readonly IGrpcChannelClient _channelClient;
         private readonly IWalletClient _walletClient;
+        private readonly ITransactionClient _transactionClient;
 
         public TronNetwork TronNetwork => _options.Value.Network;
 
-        public TronClient(ILogger<TronClient> logger, IOptions<TronNetOptions> options, IGrpcChannelClient channelClient, IWalletClient walletClient)
+        public TronClient(ILogger<TronClient> logger, IOptions<TronNetOptions> options, IGrpcChannelClient channelClient, IWalletClient walletClient, ITransactionClient transactionClient)
         {
             _logger = logger;
             _options = options;
             _channelClient = channelClient;
             _walletClient = walletClient;
+            _transactionClient = transactionClient;
         }
-        public Grpc.Core.Channel CreateChannel()
+        public IGrpcChannelClient GetChannel()
         {
-            return _channelClient.GetChannel(); 
+            return _channelClient; 
         }
-        public Wallet.WalletClient GetWallet()
+        public IWalletClient GetWallet()
         {
-            return _walletClient.GetWallet();
+            return _walletClient;
         }
 
-        public TronECKey GenerateKey()
+        public ITransactionClient GetTransaction()
         {
-            var tronKey = TronECKey.GenerateKey(_options.Value.Network);
-
-            return tronKey;
+            return _transactionClient;
         }
 
+        public IContractClient GetContract()
+        {
+            return null;
+        }
     }
 }

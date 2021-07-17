@@ -1,9 +1,12 @@
 ﻿using Google.Protobuf;
+using Grpc.Core;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TronNet.Accounts;
 using TronNet.Crypto;
 using TronNet.Protocol;
 
@@ -12,22 +15,35 @@ namespace TronNet
     class WalletClient : IWalletClient
     {
         private readonly IGrpcChannelClient _channelClient;
+        private readonly IOptions<TronNetOptions> _options;
 
-        public WalletClient(IGrpcChannelClient channelClient)
+        public WalletClient(IGrpcChannelClient channelClient, IOptions<TronNetOptions> options)
         {
             _channelClient = channelClient;
+            _options = options;
         }
 
-        public Wallet.WalletClient GetWallet()
+        public Wallet.WalletClient GetProtocol()
         {
-            var channel = _channelClient.GetChannel();
+            var channel = _channelClient.GetProtocol();
             var wallet = new Wallet.WalletClient(channel);
             return wallet;
         }
 
-        public WalletSolidity.WalletSolidityClient WalletSolidity()
+        public ITronAccount GenerateAccount()
         {
-            var channel = _channelClient.GetSolidityChannel();
+            var tronKey = TronECKey.GenerateKey(_options.Value.Network);
+            return new TronAccount(tronKey);
+        }
+
+        public ITronAccount GetAccount(string privateKey)
+        {
+            return new TronAccount(privateKey, _options.Value.Network);
+        }
+
+        public WalletSolidity.WalletSolidityClient GetSolidityProtocol()
+        {
+            var channel = _channelClient.GetSolidityProtocol();
             var wallet = new WalletSolidity.WalletSolidityClient(channel);
 
             return wallet;
@@ -62,6 +78,16 @@ namespace TronNet
                 }
             }
             return ByteString.CopyFrom(raw);
+        }
+
+        public Metadata GetHeaders()
+        {
+            var headers = new Metadata
+            {
+                { "TRON-PRO-API-KEY", _options.Value.ApiKey }
+            };
+
+            return headers;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TronNet.Test
         public TransactionSignTest()
         {
             _record = TronTestServiceExtension.GetTestRecord();
-            _wallet = _record.TronClient.GetWallet();
+            _wallet = _record.TronClient.GetWallet().GetProtocol();
         }
 
         [Fact]

@@ -20,11 +20,11 @@ namespace TronNet
             _options = options;
         }
 
-        public Channel GetChannel()
+        public Channel GetProtocol()
         {
             return new Channel(_options.Value.Channel.Host, _options.Value.Channel.Port, ChannelCredentials.Insecure);
         }
-        public Channel GetSolidityChannel()
+        public Channel GetSolidityProtocol()
         {
             return new Channel(_options.Value.SolidityChannel.Host, _options.Value.SolidityChannel.Port, ChannelCredentials.Insecure);
         }

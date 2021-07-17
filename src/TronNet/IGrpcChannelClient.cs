@@ -8,7 +8,8 @@ namespace TronNet
 {
     public interface IGrpcChannelClient
     {
-        Grpc.Core.Channel GetChannel();
-        Grpc.Core.Channel GetSolidityChannel();
+        
+        Grpc.Core.Channel GetProtocol();
+        Grpc.Core.Channel GetSolidityProtocol();
     }
 }
