@@ -89,5 +89,10 @@ namespace TronNet
             return _privateKeyHex;
         }
 
+        public byte[] GetPubKey()
+        {
+            return _ecKey.GetPubKey();
+        }
+
     }
 }

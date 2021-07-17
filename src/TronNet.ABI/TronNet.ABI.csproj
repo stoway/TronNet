@@ -3,13 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Authors>stoway</Authors>
-    <Version>0.1.5</Version>
+    <Version>0.2.0</Version>
     <Company>stoway.net</Company>
     <Description>TronNet.ABI</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/stoway/TronNet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stoway/TronNet</RepositoryUrl>
     <PackageTags>tron, tron protocol, tron grpc</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -26,7 +26,8 @@ namespace TronNet
             services.AddTransient<IGrpcChannelClient, GrpcChannelClient>();
             services.AddTransient<ITronClient, TronClient>();
             services.AddTransient<IWalletClient, WalletClient>();
-
+            services.AddSingleton<Contracts.IContractClientFactory, Contracts.ContractClientFactory>();
+            services.AddTransient<Contracts.TRC20ContractClient>();
             services.Configure(setupAction);
 
             return services;
