@@ -24,6 +24,8 @@ namespace TronNet.Contracts
         private readonly IWalletClient _walletClient;
         private readonly ITransactionClient _transactionClient;
 
+        public ContractProtocol Protocol => ContractProtocol.TRC20;
+
         public TRC20ContractClient(ILogger<TRC20ContractClient> logger, IWalletClient walletClient, ITransactionClient transactionClient)
         {
             _logger = logger;

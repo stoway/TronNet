@@ -103,3 +103,40 @@ namespace TronNetTest
 ```
 also see: https://github.com/stoway/TronNet/blob/main/test/TronNet.Test/TransactionSignTest.cs
 
+#### Sample 3: Contract TRC20 Transfer (USDT)
+```c#
+using TronNet;
+using System.Threading.Tasks;
+using Google.Protobuf;
+using Microsoft.Extensions.Options;
+
+namespace TronNetTest
+{
+    class Class1
+    {
+        private readonly IWalletClient _wallet;
+        private readonly IContractClientFactory _contractClientFactory;
+
+        public Class1(IWalletClient wallet, IContractClientFactory contractClientFactory)
+        {
+            _wallet = wallet;
+            _contractClientFactory = contractClientFactory;
+        }
+
+        public async Task TransferAsync()
+        {
+            var privateKey = "8e812436a0e3323166e1f0e8ba79e19e217b2c4a53c970d4cca0cfb1078979df";
+            var account = _wallet.GetAccount(privateKey);
+
+            var contractAddress = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"; //USDT Contract Address
+            var to = "TGehVcNhud84JDCGrNHKVz9jEAVKUpbuiv";
+            var amount = 10; //USDT Amount
+            var feeAmount = 5 * 1000000L;
+            var contractClient = _contractClientFactory.CreateClient(ContractProtocol.TRC20);
+
+            var result = await contractClient.TransferAsync(contractAddress, account, to, amount, string.Empty, feeAmount);
+        }
+    }
+}
+
+```
