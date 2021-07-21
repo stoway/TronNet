@@ -23,15 +23,15 @@ namespace TronNet
 
         public async Task<TransactionExtention> CreateTransactionAsync(string from, string to, long amount)
         {
-            var wallet = _walletClient.GetWallet();
+            var wallet = _walletClient.GetProtocol();
 
-            var fromAddress = Base58Encoder.DecodeFromBase58Check(from);
-            var toAddress = Base58Encoder.DecodeFromBase58Check(to);
+            var fromAddress = _walletClient.ParseAddress(from);
+            var toAddress = _walletClient.ParseAddress(to);
 
             var transferContract = new TransferContract
             {
-                OwnerAddress = ByteString.CopyFrom(fromAddress),
-                ToAddress = ByteString.CopyFrom(toAddress),
+                OwnerAddress = fromAddress,
+                ToAddress = toAddress,
                 Amount = amount
             };
 
@@ -92,7 +92,7 @@ namespace TronNet
 
         public async Task<Return> BroadcastTransactionAsync(Transaction transaction)
         {
-            var wallet = _walletClient.GetWallet();
+            var wallet = _walletClient.GetProtocol();
             var result = await wallet.BroadcastTransactionAsync(transaction, headers: _options.Value.GetgRPCHeaders());
 
             return result;
