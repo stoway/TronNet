@@ -56,7 +56,7 @@ namespace TronNetTest
 
         public void GenerateAddress()
         {
-            var key = _tronClient.GenerateKey();
+            var key = TronECKey.GenerateKey(TronNetwork.MainNet);
 
             var address = key.GetPublicAddress();
         }
